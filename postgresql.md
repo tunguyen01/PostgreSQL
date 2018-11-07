@@ -206,7 +206,25 @@ Trong phần này, chúng ta bắt đầu khám phá các kiểu dữ liệu Pos
 * ```Truncate table``` - loại bỏ tất cả dữ liệu trong một bảng lớn một cách nhanh chóng và hiệu quả.
 
 ###### 5.2.11 Các loại dữ liệu PostgreSQL chuyên sâu
+
+
 ###### 5.2.12 Hiểu các ràng buộc PostgreSQL
+
+* Khóa chính - minh họa cách xác định khóa chính khi tạo bảng hoặc thêm khóa chính vào bảng hiện có.
+* Khóa ngoài - chỉ cho bạn cách xác định các ràng buộc khóa ngoài khi tạo một bảng mới hoặc thêm ràng buộc khóa ngoài cho các bảng hiện có.
+* Ràng buộc CHECK - thêm logic để kiểm tra giá trị dựa trên biểu thức Boolean.
+* Ràng buộc UNIQUE - đảm bảo rằng một giá trị trong một cột hoặc một nhóm cột duy nhất trên bảng.
+* Ràng buộc NOT NULL - đảm bảo các giá trị trong một cột không phải là ```NULL```.
+
 ###### 5.2.13 Biểu thức và toán tử điều kiện
+
+* ```CASE``` - chỉ cho bạn cách tạo các truy vấn có điều kiện với biểu thức CASE.
+* ```COALESCE``` - trả về đối số không null đầu tiên. Bạn có thể sử dụng nó để thay thế ```NULL``` bằng một giá trị mặc định.
+* ```NULLIF``` - trả về NULL nếu đối số đầu tiên bằng đối số thứ hai.
+* ```CAST``` - chuyển đổi từ một kiểu dữ liệu sang một loại dữ liệu khác, ví dụ, từ một chuỗi thành một số nguyên, từ một chuỗi thành một ngày.
+
 ###### 5.2.14 Tiện ích PostgreSQL
+
+Lệnh psql - cho bạn thấy các lệnh psql phổ biến nhất giúp bạn tương tác với psql nhanh hơn và hiệu quả hơn.
+
 ###### 5.2.15 Phương thức PostgreSQL
