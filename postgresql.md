@@ -85,13 +85,13 @@ Tiếp theo, ta thực hiện tạo cơ sở dữ liệu và thực hiện đấ
 su - postgres
 ```
 Sau đó, thực hiện đăng nhập vào cơ sở dữ liệu với lệnh ```psql```:
-``` code
+```
 psql
 ```
 
 Sau khi đã đăng nhập, ta tạo cơ sở dữ liệu để sau đó đẩy bản cơ sở dữ liệu mẫu PostgreSQl mà ta đã tải trước đó.
 
-``` ```
+```
 CREATE DATABASE dvdrental;
 ```
 
@@ -103,12 +103,12 @@ CREATE DATABASE
 ```
 Tiếp đó, ta sử dụng công cụ ```pg_restore``` để tải dữ liệu mẫu vào cơ sở dữ liệu dvdrental ta đã tạo trước đó.
 
-``` ```
+```
 pg_restore -U postgres -d dvdrental dvdrental.tar
 ```
 
 Sau khi đã tải cơ sở dữ liệu mẫu, ta lại đăng nhập vào PostgreSQL với lệnh ```psql```. Và để có thể thực thi trên cơ sở dữ liệu ta đã tải lên trước đó,ta sử dụng lệnh: ``` \c <tên_CSDL> ```. Sau khi chạy lệnh sẽ có kết quả như sau:
-``` ```
+```
 postgres@master:~$ psql
 psql (10.5 (Ubuntu 10.5-0ubuntu0.18.04))
 Type "help" for help.
