@@ -94,7 +94,9 @@ Sau khi đã đăng nhập, ta tạo cơ sở dữ liệu để sau đó đẩy 
 ``` ```
 CREATE DATABASE dvdrental;
 ```
+
 Sau khi chạy lệnh hoàn thành sẽ hiển thị như sau:
+
 ```
 postgres=# CREATE DATABASE dvdrental;
 CREATE DATABASE
@@ -113,5 +115,5 @@ Type "help" for help.
 
 postgres=# \c dvdrental
 You are now connected to database "dvdrental" as user "postgres".
-dvdrental=# 
+dvdrental=#
 ```
