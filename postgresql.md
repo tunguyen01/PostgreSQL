@@ -74,3 +74,44 @@ sudo service postgresql start
 
 Dưới đây là mô hình của cơ sở dữ liệu mẫu này.
 <img src="https://imgur.com/WekNg0r.png">
+
+Để tải mẫu cơ sở dữ liệu này chạy lệnh sau:
+``` code
+wget https://github.com/tunguyen01/PostgreSQL/raw/master/dvdrental.tar
+```
+Tiếp theo, ta thực hiện tạo cơ sở dữ liệu và thực hiện đấy cơ sở dữ liệu mẫu này vào. Đầu tiên, đăng nhập vào tài khoản postgres:
+
+``` code
+su - postgres
+```
+Sau đó, thực hiện đăng nhập vào cơ sở dữ liệu với lệnh ```psql```:
+``` code
+psql
+```
+
+Sau khi đã đăng nhập, ta tạo cơ sở dữ liệu để sau đó đẩy bản cơ sở dữ liệu mẫu PostgreSQl mà ta đã tải trước đó.
+
+``` ```
+CREATE DATABASE dvdrental;
+```
+Sau khi chạy lệnh hoàn thành sẽ hiển thị như sau:
+```
+postgres=# CREATE DATABASE dvdrental;
+CREATE DATABASE
+```
+Tiếp đó, ta sử dụng công cụ ```pg_restore``` để tải dữ liệu mẫu vào cơ sở dữ liệu dvdrental ta đã tạo trước đó.
+
+``` ```
+pg_restore -U postgres -d dvdrental dvdrental.tar
+```
+
+Sau khi đã tải cơ sở dữ liệu mẫu, ta lại đăng nhập vào PostgreSQL với lệnh ```psql```. Và để có thể thực thi trên cơ sở dữ liệu ta đã tải lên trước đó,ta sử dụng lệnh: ``` \c <tên_CSDL> ```. Sau khi chạy lệnh sẽ có kết quả như sau:
+``` ```
+postgres@master:~$ psql
+psql (10.5 (Ubuntu 10.5-0ubuntu0.18.04))
+Type "help" for help.
+
+postgres=# \c dvdrental
+You are now connected to database "dvdrental" as user "postgres".
+dvdrental=# 
+```
