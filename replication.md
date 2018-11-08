@@ -97,14 +97,16 @@ service postgresql restart
 
 Bắt đầu trên máy chủ slave bằng việc tắt phần mềm postgresql với lệnh:
 
-``` ```
+```
 service postgresql stop
 ```
 
 Chúng ta sẽ thực hiện thay đổi các tệp tin postgresql tương tự với Master server, chuyển đến thư mục chứa các tệp tin cấu hình của PostgreSQL:
-``` ```
+
+```
 cd /etc/postgresql/version_of_postgresql/main
 ```
+
 Điều chỉnh tệp truy cập để cho phép máy chủ khác kết nối tới máy chủ này. Đây là trong trường hợp chúng ta cần phải biến slave thành master sau này.
 
 ```
@@ -158,7 +160,7 @@ cd /var/lib/postgresql/version_of_postgresql/main
 
 Ở đây, chúng ta cần phải tạo một tập tin phục hồi được gọi là ```Recovery.conf```:
 
-``` 
+```
 vi recovery.conf
 ```
 
