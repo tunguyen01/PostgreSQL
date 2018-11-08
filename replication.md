@@ -59,16 +59,21 @@ Tiếp đó, ta sẽ thực hiện sửa đổi tệp tin truy cập với ngư�
 vi pg_hba.conf
 ```
 Tại bất kỳ vị trí nào mà không phải là cuối dòng, thêm dòng dưới đây để người dùng mới có quyền truy cập vào máy chủ:
+
 ``` ```
 host    replication     rep     10.2.9.125/32   md5
 ```
+
 Lưu lại và thoát khỏi tệp tin.
 
 Sau đó, chúng ta sẽ thực hiện mở tệp tin cấu hình chính của PostgreSQL.
+
 ``` ```
 vi postgresql.conf
 ```
+
 Tìm các tham số bên dưới, bỏ dấu # cho chúng nếu các tham số bị đánh dấu là chú thích và sửa đổi các tham số theo giá trị mà tôi để bên dưới:
+
 ``` ```
 listen_addresses = 'localhost,10.2.9.115'
 wal_level = 'hot_standby'
@@ -77,37 +82,49 @@ archive_command = 'cd .'
 max_wal_senders = 1
 hot_standby = on
 ```
+
 Lưu và thoát khỏi tệp tin.
 
 Khởi động lại Master server để thực hiện các thay đổi.
+
 ``` ```
 service postgresql restart
 ```
+
 #### 3. Cấu hình Slave server
 
 Bắt đầu trên máy chủ slave bằng việc tắt phần mềm postgresql với lệnh:
+
 ``` ```
 service postgresql stop
 ```
+
 Chúng ta sẽ thực hiện thay đổi các tệp tin postgresql tương tự với Master server, chuyển đến thư mục chứa các tệp tin cấu hình của PostgreSQL:
 ``` ```
 cd /etc/postgresql/version_of_postgresql/main
 ```
 Điều chỉnh tệp truy cập để cho phép máy chủ khác kết nối tới máy chủ này. Đây là trong trường hợp chúng ta cần phải biến slave thành master sau này.
+
 ``` ```
 vi pg_hba.conf
 ```
+
 Một lần nữa, thêm dòng này một nơi nào đó không phải ở phần cuối của tập tin:
+
 ``` ```
 host    replication     rep     10.2.9.115/32  md5
 ```
+
 Lưu lại và thoát khỏi tệp tin.
 
 Tiếp theo, mở tệp tin cấu hình postgresql:
+
 ``` ```
 vi postgresql.conf
 ```
+
 Bạn có thể sử dụng các tùy chọn cấu hình giống như bạn đã đặt cho Master server, chỉ sửa đổi địa chỉ IP để phản ánh địa chỉ của Slave server:
+
 ``` ```
 listen_addresses = 'localhost,10.2.9.125'
 wal_level = 'hot_standby'
@@ -116,6 +133,7 @@ archive_command = 'cd .'
 max_wal_senders = 1
 hot_standby = on
 ```
+
 Lưu và thoát khỏi tệp tin.
 
 #### 4. Sao chép cơ sở dữ liệu ban đầu
@@ -129,12 +147,17 @@ psql -c "select pg_start_backup('initial_backup');"
 rsync -cva --inplace --exclude=*pg_xlog* /var/lib/postgresql/version_of_postgresql/main/ slave_IP_address:/var/lib/postgresql/version_of_postgresql/main/
 psql -c "select pg_stop_backup();"
 ```
+
 Bây giờ chúng ta phải cấu hình một tệp khôi phục trên slave của chúng ta. Trên slave điều hướng đến thư mục dữ liệu:
+
 ``` ```
 cd /var/lib/postgresql/version_of_postgresql/main
 ```
+
 Ở đây, chúng ta cần phải tạo một tập tin phục hồi được gọi là ```Recovery.conf```:
+
 ``` ```
 vi recovery.conf
 ```
+
 Điền vào các thông tin sau. Hãy chắc chắn thay đổi địa chỉ IP của Master slave của bạn và mật khẩu cho người dùng Rep bạn đã tạo:
