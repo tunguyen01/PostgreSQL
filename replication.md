@@ -3,6 +3,7 @@
 > Tài liệu: Viết tài liệu với PostgreSQL replication
 
 Master server: 10.2.9.115
+
 Slave server: 10.2.9.125
 
 ================
@@ -55,12 +56,13 @@ cd /etc/postgresql/version_of_postgresql/main
 Đường dẫn phù thuộc vào phiển bản PostgreSQL mà bạn sử dụng.
 
 Tiếp đó, ta sẽ thực hiện sửa đổi tệp tin truy cập với người dùng mà ta vừa tạo ở trên.
+
 ```
 vi pg_hba.conf
 ```
 Tại bất kỳ vị trí nào mà không phải là cuối dòng, thêm dòng dưới đây để người dùng mới có quyền truy cập vào máy chủ:
 
-``` ```
+```
 host    replication     rep     10.2.9.125/32   md5
 ```
 
@@ -68,13 +70,13 @@ Lưu lại và thoát khỏi tệp tin.
 
 Sau đó, chúng ta sẽ thực hiện mở tệp tin cấu hình chính của PostgreSQL.
 
-``` ```
+```
 vi postgresql.conf
 ```
 
 Tìm các tham số bên dưới, bỏ dấu # cho chúng nếu các tham số bị đánh dấu là chú thích và sửa đổi các tham số theo giá trị mà tôi để bên dưới:
 
-``` ```
+```
 listen_addresses = 'localhost,10.2.9.115'
 wal_level = 'hot_standby'
 archive_mode = on
@@ -87,7 +89,7 @@ Lưu và thoát khỏi tệp tin.
 
 Khởi động lại Master server để thực hiện các thay đổi.
 
-``` ```
+```
 service postgresql restart
 ```
 
@@ -105,13 +107,13 @@ cd /etc/postgresql/version_of_postgresql/main
 ```
 Điều chỉnh tệp truy cập để cho phép máy chủ khác kết nối tới máy chủ này. Đây là trong trường hợp chúng ta cần phải biến slave thành master sau này.
 
-``` ```
+```
 vi pg_hba.conf
 ```
 
 Một lần nữa, thêm dòng này một nơi nào đó không phải ở phần cuối của tập tin:
 
-``` ```
+```
 host    replication     rep     10.2.9.115/32  md5
 ```
 
@@ -119,13 +121,13 @@ Lưu lại và thoát khỏi tệp tin.
 
 Tiếp theo, mở tệp tin cấu hình postgresql:
 
-``` ```
+```
 vi postgresql.conf
 ```
 
 Bạn có thể sử dụng các tùy chọn cấu hình giống như bạn đã đặt cho Master server, chỉ sửa đổi địa chỉ IP để phản ánh địa chỉ của Slave server:
 
-``` ```
+```
 listen_addresses = 'localhost,10.2.9.125'
 wal_level = 'hot_standby'
 archive_mode = on
@@ -142,7 +144,7 @@ Trước khi slave có thể sao chép master, chúng ta cần phải cung cấp
 
 Trên Master ser, chúng ta có thể sử dụng lệnh khởi động sao lưu nội bộ để tạo một lệnh sao lưu nhãn. Sau đó chúng ta sẽ chuyển dữ liệu cơ sở dữ liệu đến slave của chúng ta và sau đó đưa ra lệnh dừng sao lưu nội bộ để dọn sạch:
 
-``` ```
+```
 psql -c "select pg_start_backup('initial_backup');"
 rsync -cva --inplace --exclude=*pg_xlog* /var/lib/postgresql/version_of_postgresql/main/ slave_IP_address:/var/lib/postgresql/version_of_postgresql/main/
 psql -c "select pg_stop_backup();"
@@ -156,7 +158,7 @@ cd /var/lib/postgresql/version_of_postgresql/main
 
 Ở đây, chúng ta cần phải tạo một tập tin phục hồi được gọi là ```Recovery.conf```:
 
-``` ```
+``` 
 vi recovery.conf
 ```
 
