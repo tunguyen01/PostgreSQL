@@ -154,11 +154,11 @@ psql -c "select pg_stop_backup();"
 
 Bây giờ chúng ta phải cấu hình một tệp khôi phục trên slave của chúng ta. Trên slave điều hướng đến thư mục dữ liệu:
 
-``` ```
+```
 cd /var/lib/postgresql/version_of_postgresql/main
 ```
 
-Ở đây, chúng ta cần phải tạo một tập tin phục hồi được gọi là ```Recovery.conf```:
+Ở đây, chúng ta cần phải tạo một tập tin phục hồi được gọi là ```Recovery.conf``` :
 
 ```
 vi recovery.conf
