@@ -213,3 +213,82 @@ WHERE
 ORDER BY
  return_date DESC;
 ```
+
+### PostgreSQL ```LIKE```
+
+Giả sử người quản lý cửa hàng yêu cầu bạn tìm một khách hàng mà anh ấy không nhớ tên chính xác. Anh ta chỉ nhớ rằng tên của khách hàng bắt đầu bằng thứ gì đó giống như ```Jen```. Làm thế nào để bạn tìm được khách hàng chính xác mà người quản lý cửa hàng đang yêu cầu? Bạn có thể tìm thấy khách hàng trong bảng khách hàng bằng cách nhìn vào cột tên đầu tiên để xem liệu có bất kỳ giá trị nào bắt đầu bằng ```Jen``` hay không. Đó là loại tẻ nhạt vì có nhiều hàng trong bảng ```customer```.
+
+May mắn thay, bạn có thể sử dụng toán tử ```LIKE``` PostgreSQL để làm truy vấn sau:
+
+```
+SELECT
+ first_name,
+        last_name
+FROM
+ customer
+WHERE
+ first_name LIKE 'Jen%';
+```
+
+Bạn xây dựng một mẫu bằng cách kết hợp một chuỗi ký tự đại diện và sử dụng toán tử ```LIKE``` hoặc ```NOT LIKE``` để tìm các kết quả phù hợp. PostgreSQL cung cấp hai ký tự đại diện:
+
+* Phần trăm (``%``) cho phù hợp với bất kỳ chuỗi ký tự nào.
+* Dấu gạch dưới (``_``) để khớp với bất kỳ ký tự đơn nào.
+
+Cú pháp của toán tử ```LIKE``` PostgreSQL  như sau:
+
+```
+string LIKE pattern
+```
+
+Biểu thức trả về true nếu chuỗi khớp với mẫu, nếu không nó sẽ trả về false.
+
+### PostgreSQL ```GROUP BY```
+
+Mệnh đề ```GROUP BY``` chia các hàng trả về từ câu lệnh ```SELECT``` thành các nhóm. Đối với mỗi nhóm, bạn có thể áp dụng hàm tổng hợp, ví dụ: ```SUM``` để tính tổng số mục hoặc COUNT để nhận số lượng mục trong nhóm.
+
+Câu lệnh sau minh họa cú pháp của mệnh đề ```GROUP BY```:
+
+```
+SELECT column_1, aggregate_function(column_2)
+FROM tbl_name
+GROUP BY column_1;
+```
+
+Ví dụ:
+
+```
+SELECT
+ customer_id,
+ SUM (amount)
+FROM
+ payment
+GROUP BY
+ customer_id
+ORDER BY
+ SUM (amount) DESC;
+```
+
+Mệnh đề ```GROUP BY``` sắp xếp tập kết quả theo id khách hàng và cộng thêm số tiền thuộc về cùng một khách hàng. Bất cứ khi nào customer_id thay đổi, nó sẽ thêm hàng vào tập kết quả trả về.
+
+### PostgreSQL ```HAVING```
+
+Chúng ta thường sử dụng mệnh đề HAVING cùng với mệnh đề ```GROUP BY``` để lọc các hàng nhóm không thỏa mãn một điều kiện cụ thể.
+
+Câu lệnh sau minh họa cú pháp điển hình của mệnh đề ```HAVING```:
+
+```
+SELECT
+ column_1,
+ aggregate_function (column_2)
+FROM
+ tbl_name
+GROUP BY
+ column_1
+HAVING
+ condition;
+```
+
+Mệnh đề ```HAVING``` đặt điều kiện cho các hàng nhóm được tạo bởi mệnh đề ```GROUP BY``` sau khi mệnh đề ```GROUP BY``` áp dụng trong khi mệnh đề ```WHERE``` đặt điều kiện cho các hàng riêng lẻ trước khi mệnh đề ```GROUP BY``` áp dụng. Đây là sự khác biệt chính giữa các mệnh đề ```HAVING``` và ```WHERE```.
+
+Trong PostgreSQL, bạn có thể sử dụng mệnh đề HAVING mà không có mệnh đề ```GROUP BY```. Trong trường hợp này, mệnh đề ```HAVING``` sẽ biến truy vấn thành một nhóm duy nhất. Ngoài ra, danh sách ```SELECT``` và mệnh đề ```HAVING``` chỉ có thể tham chiếu đến các cột từ bên trong các hàm tổng hợp. Kiểu truy vấn này trả về một hàng đơn nếu điều kiện trong mệnh đề ```HAVING``` là đúng hoặc không có hàng nếu nó là false.
